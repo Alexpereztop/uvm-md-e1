@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones con Conjuntos - UVM</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .uvm-primary {
+            color: #007EAA;
+        }
+        
+        .uvm-secondary {
+            color: #475569;
+        }
+        
+        .animation-fade {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .set-result {
+            transition: all 0.3s ease;
+        }
+        
+        .set-result:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-operation {
+            transition: all 0.2s ease;
+        }
+        
+        .btn-operation:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-operation:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header with logo -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+            <img src="https://www.universidaduvm.mx/sites/default/files/inline-images/LOGO%20UVM%202020-02.png" alt="Universidad del Valle de México" class="h-20 mb-4 md:mb-0">
+            <div class="text-right">
+                <h2 class="text-lg font-semibold uvm-primary">UNIDAD 3: COMPLEJIDAD COMPUTACIONAL</h2>
+                <h3 class="text-md font-medium">A4: "EJERCICIOS"</h3>
+            </div>
+        </div>
+        
+        <!-- Main title -->
+        <div class="text-center mb-10 animation-fade">
+            <h1 class="text-3xl font-bold uvm-primary mb-2">UNIVERSIDAD DEL VALLE DE MÉXICO</h1>
+            <h2 class="text-2xl font-semibold uvm-secondary mb-1">MATEMÁTICAS DISCRETAS</h2>
+            <p class="text-lg">Estudio de las Operaciones con Conjuntos</p>
+        </div>
+        
+        <!-- Main content -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 animation-fade">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Input section -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold uvm-primary flex items-center">
+                        <i class="fas fa-edit mr-2"></i> Definir Conjuntos
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label for="setA" class="block text-sm font-medium text-gray-700 mb-1">
+                                Conjunto A (elementos separados por comas):
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500"><i class="fas fa-layer-group"></i></span>
+                                </div>
+                                <input type="text" id="setA" class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 py-2 px-4 border" placeholder="1, 2, 3, 4, 5">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="setB" class="block text-sm font-medium text-gray-700 mb-1">
+                                Conjunto B (elementos separados por comas):
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500"><i class="fas fa-layer-group"></i></span>
+                                </div>
+                                <input type="text" id="setB" class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 py-2 px-4 border" placeholder="4, 5, 6, 7, 8">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="universalSet" class="block text-sm font-medium text-gray-700 mb-1">
+                                Conjunto Universal (para operaciones de complemento):
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500"><i class="fas fa-globe"></i></span>
+                                </div>
+                                <input type="text" id="universalSet" class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 py-2 px-4 border" placeholder="1, 2, 3, 4, 5, 6, 7, 8, 9, 10">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Nota: El conjunto universal es necesario para operaciones de complemento</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Display section -->
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h3 class="text-xl font-semibold uvm-primary flex items-center mb-4">
+                        <i class="fas fa-eye mr-2"></i> Conjuntos Definidos
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full mr-2">A</span>
+                                <div id="setADisplay" class="font-mono">Conjunto A: { }</div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 flex items-center justify-center bg-green-100 text-green-600 rounded-full mr-2">B</span>
+                                <div id="setBDisplay" class="font-mono">Conjunto B: { }</div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 flex items-center justify-center bg-purple-100 text-purple-600 rounded-full mr-2">U</span>
+                                <div id="universalSetDisplay" class="font-mono">Conjunto Universal: { }</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Operations section -->
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold uvm-primary flex items-center mb-4">
+                    <i class="fas fa-cogs mr-2"></i> Operaciones
+                </h3>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <button id="unionBtn" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-plus-circle mr-2"></i> Unión (A ∪ B)
+                    </button>
+                    
+                    <button id="intersectionBtn" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        <i class="fas fa-compress-alt mr-2"></i> Intersección (A ∩ B)
+                    </button>
+                    
+                    <button id="symDifferenceBtn" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        <i class="fas fa-exchange-alt mr-2"></i> Dif. Simétrica (A △ B)
+                    </button>
+                    
+                    <button id="differenceAB" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                        <i class="fas fa-minus-circle mr-2"></i> Diferencia (A - B)
+                    </button>
+                    
+                    <button id="differenceBA" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                        <i class="fas fa-minus-circle mr-2"></i> Diferencia (B - A)
+                    </button>
+                    
+                    <button id="complementA" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <i class="fas fa-not-equal mr-2"></i> Complemento de A
+                    </button>
+                    
+                    <button id="complementB" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <i class="fas fa-not-equal mr-2"></i> Complemento de B
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results section -->
+            <div class="mt-8 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                <h3 class="text-xl font-semibold uvm-primary flex items-center mb-4">
+                    <i class="fas fa-clipboard-check mr-2"></i> Resultado
+                </h3>
+                
+                <div id="resultDisplay" class="set-result p-4 bg-white rounded-lg shadow-sm font-mono border-l-4 border-blue-500">
+                    Realice una operación para ver los resultados
+                </div>
+                
+                <div id="computationTime" class="mt-2 text-sm text-gray-600 italic flex items-center">
+                    <i class="fas fa-clock mr-2"></i> Tiempo de cómputo se mostrará aquí
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <h3 class="text-lg font-semibold uvm-primary mb-4">ELABORADO POR:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+                <div class="flex items-center">
+                    <i class="fas fa-user-graduate text-gray-500 mr-2"></i>
+                    <span>ALMA DELIA ASCENCIO RUBIO</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-user-graduate text-gray-500 mr-2"></i>
+                    <span>VÍCTOR ALEJANDRO PÉREZ AYALA</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-user-graduate text-gray-500 mr-2"></i>
+                    <span>CARLOS IVÁN NUÑEZ AGUAYO</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-user-graduate text-gray-500 mr-2"></i>
+                    <span>ELEAZAR GONZÁLEZ ORTEGA</span>
+                </div>
+            </div>
+            <div class="border-t pt-4">
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-chalkboard-teacher text-gray-500 mr-2"></i>
+                    <span>PROFESOR: ÁLVARO REYES GARCÍA</span>
+                </div>
+                <div class="flex items-center justify-center mt-2">
+                    <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+                    <span>MÉXICO | ABRIL 07, 2025</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Funciones para manipular conjuntos
+        function parseSet(inputStr) {
+            if (!inputStr || inputStr.trim() === '') {
+                return [];
+            }
+            
+            return inputStr.split(',')
+                .map(item => item.trim())
+                .filter(item => item !== '')
+                .map(item => {
+                    // Intentar convertir a número si es posible
+                    const num = Number(item);
+                    return isNaN(num) ? item : num;
+                });
+        }
+        
+        function removeDuplicates(array) {
+            return [...new Set(array)];
+        }
+        
+        function union(setA, setB) {
+            const startTime = performance.now();
+            
+            // Implementación de la unión
+            const result = removeDuplicates([...setA, ...setB]);
+            
+            const endTime = performance.now();
+            return {
+                result,
+                executionTime: endTime - startTime
+            };
+        }
+        
+        function intersection(setA, setB) {
+            const startTime = performance.now();
+            
+            // Implementación de la intersección
+            const result = setA.filter(item => setB.includes(item));
+            
+            const endTime = performance.now();
+            return {
+                result,
+                executionTime: endTime - startTime
+            };
+        }
+        
+        function symmetricDifference(setA, setB) {
+            const startTime = performance.now();
+            
+            // Implementación de la diferencia simétrica (elementos que están en A o en B, pero no en ambos)
+            const aMinusB = setA.filter(item => !setB.includes(item));
+            const bMinusA = setB.filter(item => !setA.includes(item));
+            const result = [...aMinusB, ...bMinusA];
+            
+            const endTime = performance.now();
+            return {
+                result,
+                executionTime: endTime - startTime
+            };
+        }
+        
+        function difference(setA, setB) {
+            const startTime = performance.now();
+            
+            // Implementación de la diferencia A - B (elementos en A pero no en B)
+            const result = setA.filter(item => !setB.includes(item));
+            
+            const endTime = performance.now();
+            return {
+                result,
+                executionTime: endTime - startTime
+            };
+        }
+        
+        function complement(set, universalSet) {
+            const startTime = performance.now();
+            
+            if (!universalSet || universalSet.length === 0) {
+                throw new Error("El conjunto universal no está definido");
+            }
+            
+            // Implementación del complemento
+            const result = universalSet.filter(item => !set.includes(item));
+            
+            const endTime = performance.now();
+            return {
+                result,
+                executionTime: endTime - startTime
+            };
+        }
+        
+        // Función para mostrar conjuntos en formato adecuado
+        function formatSet(set) {
+            if (!set || set.length === 0) {
+                return "{ }";
+            }
+            return `{ ${set.join(', ')} }`;
+        }
+        
+        // Función para actualizar la visualización de los conjuntos
+        function updateSetDisplay() {
+            const setA = parseSet(document.getElementById('setA').value);
+            const setB = parseSet(document.getElementById('setB').value);
+            const universalSet = parseSet(document.getElementById('universalSet').value);
+            
+            document.getElementById('setADisplay').textContent = `Conjunto A: ${formatSet(setA)}`;
+            document.getElementById('setBDisplay').textContent = `Conjunto B: ${formatSet(setB)}`;
+            document.getElementById('universalSetDisplay').textContent = `Conjunto Universal: ${formatSet(universalSet)}`;
+        }
+        
+        // Función para mostrar resulados con animación
+        function showResult(operation, result, time) {
+            const resultDisplay = document.getElementById('resultDisplay');
+            const computationTime = document.getElementById('computationTime');
+            
+            // Añadir clase para la animación
+            resultDisplay.classList.add('opacity-0');
+            
+            // Cambiar color del borde según operación
+            let borderColor = 'border-blue-500';
+            if (operation.includes('∩')) borderColor = 'border-green-500';
+            if (operation.includes('△')) borderColor = 'border-purple-500';
+            if (operation.includes('-')) borderColor = 'border-amber-500';
+            if (operation.includes("'")) borderColor = 'border-red-500';
+            
+            // Reemplazar todas las clases de borde
+            resultDisplay.className = resultDisplay.className
+                .replace(/border-[a-z]+-500/g, '')
+                .trim() + ' ' + borderColor;
+            
+            // Establecer nuevo contenido con un retraso para la animación
+            setTimeout(() => {
+                resultDisplay.textContent = `${operation} = ${result}`;
+                computationTime.innerHTML = `<i class="fas fa-clock mr-2"></i> Tiempo de cómputo: ${time.toFixed(6)} ms`;
+                
+                // Mostrar con animación
+                resultDisplay.classList.remove('opacity-0');
+                resultDisplay.classList.add('opacity-100', 'transition-opacity', 'duration-300');
+            }, 150);
+        }
+        
+        // Evento que se ejecuta cuando el DOM está completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Asignar eventos a los botones
+            document.getElementById('unionBtn').addEventListener('click', performUnion);
+            document.getElementById('intersectionBtn').addEventListener('click', performIntersection);
+            document.getElementById('symDifferenceBtn').addEventListener('click', performSymmetricDifference);
+            document.getElementById('differenceAB').addEventListener('click', performDifferenceAB);
+            document.getElementById('differenceBA').addEventListener('click', performDifferenceBA);
+            document.getElementById('complementA').addEventListener('click', performComplementA);
+            document.getElementById('complementB').addEventListener('click', performComplementB);
+            
+            // Asignar eventos a los campos de entrada para actualizar la visualización
+            document.getElementById('setA').addEventListener('input', updateSetDisplay);
+            document.getElementById('setB').addEventListener('input', updateSetDisplay);
+            document.getElementById('universalSet').addEventListener('input', updateSetDisplay);
+            
+            // Valores predeterminados
+            document.getElementById('setA').value = "1, 2, 3, 4, 5";
+            document.getElementById('setB').value = "4, 5, 6, 7, 8";
+            document.getElementById('universalSet').value = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10";
+            
+            // Actualizar visualización inicial
+            updateSetDisplay();
+        });
+        
+        // Funciones para realizar operaciones
+        function performUnion() {
+            try {
+                const setA = parseSet(document.getElementById('setA').value);
+                const setB = parseSet(document.getElementById('setB').value);
+                
+                const { result, executionTime } = union(setA, setB);
+                
+                showResult("A ∪ B", formatSet(result), executionTime);
+            } catch (error) {
+                document.getElementById('resultDisplay').innerHTML = `<span class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Error: ${error.message}</span>`;
+                document.getElementById('computationTime').textContent = '';
+            }
+        }
+        
+        function performIntersection() {
+            try {
+                const setA = parseSet(document.getElementById('setA').value);
+                const setB = parseSet(document.getElementById('setB').value);
+                
+                const { result, executionTime } = intersection(setA, setB);
+                
+                showResult("A ∩ B", formatSet(result), executionTime);
+            } catch (error) {
+                document.getElementById('resultDisplay').innerHTML = `<span class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Error: ${error.message}</span>`;
+                document.getElementById('computationTime').textContent = '';
+            }
+        }
+        
+        function performSymmetricDifference() {
+            try {
+                const setA = parseSet(document.getElementById('setA').value);
+                const setB = parseSet(document.getElementById('setB').value);
+                
+                const { result, executionTime } = symmetricDifference(setA, setB);
+                
+                showResult("A △ B", formatSet(result), executionTime);
+            } catch (error) {
+                document.getElementById('resultDisplay').innerHTML = `<span class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Error: ${error.message}</span>`;
+                document.getElementById('computationTime').textContent = '';
+            }
+        }
+        
+        function performDifferenceAB() {
+            try {
+                const setA = parseSet(document.getElementById('setA').value);
+                const setB = parseSet(document.getElementById('setB').value);
+                
+                const { result, executionTime } = difference(setA, setB);
+                
+                showResult("A - B", formatSet(result), executionTime);
+            } catch (error) {
+                document.getElementById('resultDisplay').innerHTML = `<span class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Error: ${error.message}</span>`;
+                document.getElementById('computationTime').textContent = '';
+            }
+        }
+        
+        function performDifferenceBA() {
+            try {
+                const setA = parseSet(document.getElementById('setA').value);
+                const setB = parseSet(document.getElementById('setB').value);
+                
+                const { result, executionTime } = difference(setB, setA);
+                
+                showResult("B - A", formatSet(result), executionTime);
+            } catch (error) {
+                document.getElementById('resultDisplay').innerHTML = `<span class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Error: ${error.message}</span>`;
+                document.getElementById('computationTime').textContent = '';
+            }
+        }
+        
+        function performComplementA() {
+            try {
+                const setA = parseSet(document.getElementById('setA').value);
+                const universalSet = parseSet(document.getElementById('universalSet').value);
+                
+                const { result, executionTime } = complement(setA, universalSet);
+                
+                showResult("A'", formatSet(result), executionTime);
+            } catch (error) {
+                document.getElementById('resultDisplay').innerHTML = `<span class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Error: ${error.message}</span>`;
+                document.getElementById('computationTime').textContent = '';
+            }
+        }
+        
+        function performComplementB() {
+            try {
+                const setB = parseSet(document.getElementById('setB').value);
+                const universalSet = parseSet(document.getElementById('universalSet').value);
+                
+                const { result, executionTime } = complement(setB, universalSet);
+                
+                showResult("B'", formatSet(result), executionTime);
+            } catch (error) {
+                document.getElementById('resultDisplay').innerHTML = `<span class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Error: ${error.message}</span>`;
+                document.getElementById('computationTime').textContent = '';
+            }
+        }
+    </script>
+</body>
+</html>

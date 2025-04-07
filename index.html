@@ -38,6 +38,35 @@
             }
         }
         
+        /* Estilo para tooltips informativos */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
         .set-result {
             transition: all 0.3s ease;
         }
@@ -64,9 +93,14 @@
         <!-- Header with logo -->
         <div class="flex flex-col md:flex-row items-center justify-between mb-8">
             <img src="UVM Logo.svg" alt="Universidad del Valle de México" class="h-20 mb-4 md:mb-0">
-            <div class="text-right">
-                <h2 class="text-lg font-semibold uvm-primary">UNIDAD 3: COMPLEJIDAD COMPUTACIONAL</h2>
-                <h3 class="text-md font-medium">Actividad 5. Proyecto integrador etapa 1</h3>
+            <div class="flex flex-col items-end">
+                <div class="text-right mb-2">
+                    <h2 class="text-lg font-semibold uvm-primary">UNIDAD 3: COMPLEJIDAD COMPUTACIONAL</h2>
+                    <h3 class="text-md font-medium">Actividad 5. Proyecto integrador etapa 1</h3>
+                </div>
+                <button id="instructionsBtn" class="btn-operation flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    <i class="fas fa-question-circle mr-2"></i> ¿Cómo usar esta aplicación?
+                </button>
             </div>
         </div>
         
@@ -96,6 +130,12 @@
                                     <span class="text-gray-500"><i class="fas fa-layer-group"></i></span>
                                 </div>
                                 <input type="text" id="setA" class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 py-2 px-4 border" placeholder="1, 2, 3, 4, 5">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <div class="tooltip">
+                                        <i class="fas fa-info-circle text-blue-500"></i>
+                                        <span class="tooltiptext">Ingresa elementos separados por comas: números o texto</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -108,6 +148,12 @@
                                     <span class="text-gray-500"><i class="fas fa-layer-group"></i></span>
                                 </div>
                                 <input type="text" id="setB" class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 py-2 px-4 border" placeholder="4, 5, 6, 7, 8">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <div class="tooltip">
+                                        <i class="fas fa-info-circle text-green-500"></i>
+                                        <span class="tooltiptext">Ingresa elementos separados por comas: números o texto</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -120,6 +166,12 @@
                                     <span class="text-gray-500"><i class="fas fa-globe"></i></span>
                                 </div>
                                 <input type="text" id="universalSet" class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 py-2 px-4 border" placeholder="1, 2, 3, 4, 5, 6, 7, 8, 9, 10">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <div class="tooltip">
+                                        <i class="fas fa-info-circle text-purple-500"></i>
+                                        <span class="tooltiptext">Requerido para operaciones de complemento. Debe contener todos los elementos posibles.</span>
+                                    </div>
+                                </div>
                             </div>
                             <p class="text-xs text-gray-500 mt-1">Nota: El conjunto universal es necesario para operaciones de complemento</p>
                         </div>
@@ -201,7 +253,10 @@
                 </h3>
                 
                 <div id="resultDisplay" class="set-result p-4 bg-white rounded-lg shadow-sm font-mono border-l-4 border-blue-500">
-                    Realice una operación para ver los resultados
+                    <div class="flex items-center">
+                        <i class="fas fa-arrow-right text-blue-500 mr-3"></i>
+                        Realice una operación para ver los resultados
+                    </div>
                 </div>
                 
                 <div id="computationTime" class="mt-2 text-sm text-gray-600 italic flex items-center">
@@ -240,6 +295,83 @@
                     <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
                     <span>MÉXICO | ABRIL 07, 2025</span>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de instrucciones -->
+    <div id="instructionsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 md:mx-auto overflow-hidden">
+            <div class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+                <h3 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-info-circle mr-2"></i> 
+                    Instrucciones de Uso
+                </h3>
+                <button id="closeModalBtn" class="text-white hover:text-gray-200 focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 max-h-[70vh] overflow-y-auto">
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-blue-600 flex items-center">
+                            <span class="flex items-center justify-center bg-blue-100 text-blue-600 rounded-full w-6 h-6 mr-2">1</span>
+                            Definir los conjuntos
+                        </h4>
+                        <ul class="list-disc list-inside ml-8 mt-2 space-y-2">
+                            <li>En la sección "Definir Conjuntos", ingresa los elementos del <strong>Conjunto A</strong> separados por comas (ejemplo: 1, 2, 3, 4, 5)</li>
+                            <li>Ingresa los elementos del <strong>Conjunto B</strong> separados por comas (ejemplo: 4, 5, 6, 7, 8)</li>
+                            <li>Para operaciones de complemento, ingresa los elementos del <strong>Conjunto Universal</strong> (ejemplo: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)</li>
+                        </ul>
+                        <div class="ml-8 mt-3 p-3 bg-blue-50 rounded-md text-sm">
+                            <p><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> <strong>Tip:</strong> Los elementos pueden ser números o texto. Al ingresar los elementos, verás cómo se actualizan los conjuntos definidos en tiempo real.</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-green-600 flex items-center">
+                            <span class="flex items-center justify-center bg-green-100 text-green-600 rounded-full w-6 h-6 mr-2">2</span>
+                            Realizar operaciones
+                        </h4>
+                        <p class="ml-8 mt-2">Haz clic en el botón de la operación que deseas realizar:</p>
+                        <ul class="list-disc list-inside ml-8 mt-1 space-y-2">
+                            <li><strong class="text-blue-600">Unión (A ∪ B):</strong> Combina todos los elementos de A y B</li>
+                            <li><strong class="text-green-600">Intersección (A ∩ B):</strong> Muestra los elementos comunes en A y B</li>
+                            <li><strong class="text-purple-600">Dif. Simétrica (A △ B):</strong> Elementos que están en A o en B, pero no en ambos</li>
+                            <li><strong class="text-amber-600">Diferencia (A - B):</strong> Elementos que están en A pero no en B</li>
+                            <li><strong class="text-amber-600">Diferencia (B - A):</strong> Elementos que están en B pero no en A</li>
+                            <li><strong class="text-red-600">Complemento de A:</strong> Elementos del conjunto universal que no están en A</li>
+                            <li><strong class="text-red-600">Complemento de B:</strong> Elementos del conjunto universal que no están en B</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-purple-600 flex items-center">
+                            <span class="flex items-center justify-center bg-purple-100 text-purple-600 rounded-full w-6 h-6 mr-2">3</span>
+                            Ver resultados
+                        </h4>
+                        <ul class="list-disc list-inside ml-8 mt-2">
+                            <li>El resultado de la operación aparecerá en la sección "Resultado"</li>
+                            <li>También se mostrará el tiempo de cómputo que tomó realizar la operación en milisegundos</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-2">Ejemplo práctico:</h4>
+                        <ol class="list-decimal list-inside space-y-1 ml-2">
+                            <li>Ingresa "1, 2, 3, 4, 5" en Conjunto A</li>
+                            <li>Ingresa "4, 5, 6, 7, 8" en Conjunto B</li>
+                            <li>Ingresa "1, 2, 3, 4, 5, 6, 7, 8, 9, 10" en Conjunto Universal</li>
+                            <li>Haz clic en "Unión (A ∪ B)"</li>
+                            <li>Verás el resultado: A ∪ B = { 1, 2, 3, 4, 5, 6, 7, 8 }</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-6 py-4 flex justify-end">
+                <button id="closeInstructionsBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center">
+                    <i class="fas fa-check mr-2"></i> Entendido
+                </button>
             </div>
         </div>
     </div>
@@ -375,9 +507,14 @@
                 .replace(/border-[a-z]+-500/g, '')
                 .trim() + ' ' + borderColor;
             
-            // Establecer nuevo contenido con un retraso para la animación
+                            // Establecer nuevo contenido con un retraso para la animación
             setTimeout(() => {
-                resultDisplay.textContent = `${operation} = ${result}`;
+                resultDisplay.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                        <span>${operation} = ${result}</span>
+                    </div>
+                `;
                 computationTime.innerHTML = `<i class="fas fa-clock mr-2"></i> Tiempo de cómputo: ${time.toFixed(6)} ms`;
                 
                 // Mostrar con animación
@@ -388,6 +525,47 @@
         
         // Evento que se ejecuta cuando el DOM está completamente cargado
         document.addEventListener('DOMContentLoaded', function() {
+            // Modal de instrucciones
+            const instructionsModal = document.getElementById('instructionsModal');
+            const instructionsBtn = document.getElementById('instructionsBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const closeInstructionsBtn = document.getElementById('closeInstructionsBtn');
+            
+            // Función para mostrar el modal
+            function showModal() {
+                instructionsModal.classList.remove('hidden');
+                // Añadir animación de entrada
+                setTimeout(() => {
+                    const modalContent = instructionsModal.querySelector('div');
+                    modalContent.classList.add('opacity-100', 'transform', 'translate-y-0');
+                    modalContent.classList.remove('opacity-0', 'transform', 'translate-y-4');
+                }, 10);
+            }
+            
+            // Función para ocultar el modal
+            function hideModal() {
+                instructionsModal.classList.add('hidden');
+            }
+            
+            // Eventos para mostrar/ocultar el modal
+            instructionsBtn.addEventListener('click', showModal);
+            closeModalBtn.addEventListener('click', hideModal);
+            closeInstructionsBtn.addEventListener('click', hideModal);
+            
+            // Cerrar modal al hacer clic fuera
+            instructionsModal.addEventListener('click', function(e) {
+                if (e.target === instructionsModal) {
+                    hideModal();
+                }
+            });
+            
+            // Cerrar modal con tecla Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !instructionsModal.classList.contains('hidden')) {
+                    hideModal();
+                }
+            });
+            
             // Asignar eventos a los botones
             document.getElementById('unionBtn').addEventListener('click', performUnion);
             document.getElementById('intersectionBtn').addEventListener('click', performIntersection);
@@ -409,6 +587,13 @@
             
             // Actualizar visualización inicial
             updateSetDisplay();
+            
+            // Mostrar instrucciones al cargar la página por primera vez (opcional)
+            // Para usuarios nuevos, puede ser útil mostrar las instrucciones automáticamente
+            if (!localStorage.getItem('instructionsShown')) {
+                setTimeout(showModal, 1000);
+                localStorage.setItem('instructionsShown', 'true');
+            }
         });
         
         // Funciones para realizar operaciones

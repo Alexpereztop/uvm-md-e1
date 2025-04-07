@@ -1,7 +1,6 @@
 UNIVERSIDAD DEL VALLE DE MÉXICO
 MATEMÁTICAS DISCRETAS
-UNIDAD 3: COMPLEJIDAD COMPUTACIONAL
-A4: "EJERCICIOS"
+Actividad 5. Proyecto integrador etapa 1 
 
 Este proyecto implementa una aplicación web moderna para realizar operaciones con conjuntos y medir su complejidad computacional.
 
